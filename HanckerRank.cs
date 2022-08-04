@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -46,6 +47,10 @@ namespace AlgorithmPractice
             base.teamName = name;
         }
 
+        public override void AddPlayer(int count)
+        {
+            base.AddPlayer(count);
+        }
     }
 
     public class LinqSolution
@@ -95,5 +100,20 @@ namespace AlgorithmPractice
         public string LastName { get; set; }
         public int Age { get; set; }
         public string Company { get; set; }
+    }
+
+    public sealed class SingleInstance
+    {
+        public static SingleInstance InstanceStatic
+        {
+            get { return CreateInstance.singleInstance; }
+        }
+
+        private SingleInstance() { }
+
+        private class CreateInstance
+        {
+            internal static readonly SingleInstance singleInstance =new SingleInstance();
+        }
     }
 }

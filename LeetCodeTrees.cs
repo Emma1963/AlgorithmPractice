@@ -178,5 +178,93 @@ public class LeetCodeTrees
 
             return tempRoot;
         }
+
+        /*Delete Nodes And Return Forest*/
+        public IList<TreeNode> DelNodes(TreeNode root, int[] to_delete)
+        {
+            IList<TreeNode> roots = new List<TreeNode>();
+            IList<int> deleteNodes = new List<int>();
+            for (int i = 0; i < to_delete.Length; i++)
+            {
+                deleteNodes.Add(to_delete[i]);
+            }
+
+            if (ContainNode(deleteNodes, root.data) < 0)
+            {
+                roots.Add(root);
+            }
+
+            DelNode(root, deleteNodes, roots);
+            //  roots.Add(root);
+            return roots;
+        }
+
+        private TreeNode DelNode(TreeNode root, IList<int> deleteNodes, IList<TreeNode> roots)
+        {
+            if (root == null)
+            {
+                return null;
+            }
+
+            if (deleteNodes.Count == 0)
+                return root;
+
+            /*  Console.WriteLine("root"+ root.val);
+                   if(root.left!=null)
+               Console.WriteLine("left"+ root.left.val);
+             else
+             {
+                 Console.WriteLine("left null before");
+             }
+              if(root.right!=null)
+              Console.WriteLine("right"+ root.right.val);
+              else
+                  Console.WriteLine("right null before");*/
+
+            root.Left = DelNode(root.Left, deleteNodes, roots);
+            root.Right = DelNode(root.Right, deleteNodes, roots);
+            /* Console.WriteLine("root"+ root.val);
+             if(root.left!=null)
+                 Console.WriteLine("left"+ root.left.val);
+             else
+             {
+                   Console.WriteLine("left null");
+             }
+             if(root.right!=null)
+             {
+             Console.WriteLine("right"+ root.right.val);
+             }
+             else
+             {
+                   Console.WriteLine("right null");
+             }
+     */
+            int returnIndex = ContainNode(deleteNodes, root.data);
+            if (returnIndex >= 0)
+            {
+                //  Console.WriteLine("delete----------------"+ root.val);
+                if (root.Left != null)
+                    roots.Add(root.Left);
+                if (root.Right != null)
+                    roots.Add(root.Right);
+                deleteNodes.Remove(root.data);
+                //root.val=-1;
+                return null;
+            }
+            return root;
+        }
+
+        private int ContainNode(IList<int> deleteNodes, int value)
+        {
+            for (int i = 0; i < deleteNodes.Count; i++)
+            {
+                if (deleteNodes[i] == value)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
     }
 }

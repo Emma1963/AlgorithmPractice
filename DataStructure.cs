@@ -1,6 +1,7 @@
 ﻿
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace AlgorithmPractice
@@ -248,9 +249,9 @@ namespace AlgorithmPractice
                 if (root.data == value)
                     return true;
                 else if (root.data > value)
-                    return Search(root, value);
+                    return Search(root.Left, value);
                 else
-                    return Search(root, value);
+                    return Search(root.Right, value);
             }
         }
 

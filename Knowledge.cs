@@ -69,5 +69,11 @@ namespace AlgorithmPractice
             bool flag3 = d.ContainsKey(new TreeNode(8));// no
 
         }
+
+        public void tryArray()
+        {
+            int[] a = new int[] { };
+            a[0] = 8;// throw exception
+        }
     }
 }
