@@ -181,67 +181,6 @@ namespace AlgorithmPractice
 
         }
 
-        /*
-        //* Definition for singly-linked list.*/
-        public class ListNode
-        {
-            public int val;
-            public ListNode next;
-            public ListNode(int val = 0, ListNode next = null)
-            {
-                this.val = val;
-                this.next = next;
-            }
-        }
-
-        /*Add Two Numbers*/
-        public ListNode AddTwoNumbers(ListNode l1, ListNode l2)
-        {
-            int flagAddExtra = 0;
-            ListNode l1Child = l1;
-            ListNode l2Child = l2;
-            ListNode returnNode = null;
-            ListNode lastNode = null;
-            while (l1Child != null || l2Child != null)
-            {
-                ListNode currentNode = new ListNode();
-                if (lastNode == null)//the first node
-                {
-                    lastNode = currentNode;
-                    returnNode = currentNode;
-                }
-                else
-                {
-                    lastNode.next = currentNode;
-                }
-
-                int sum = flagAddExtra;
-                if (l1Child != null)
-                {
-                    sum += l1Child.val;
-                    l1Child = l1Child.next;
-                }
-                if (l2Child != null)
-                {
-                    sum += l2Child.val;
-                    l2Child = l2Child.next;
-                }
-                int nodeValue = sum % 10;
-                flagAddExtra = sum / 10;
-                currentNode.val = nodeValue;
-                lastNode = currentNode;
-
-
-            }
-            if (flagAddExtra != 0)
-            {
-                ListNode currentNode = new ListNode();
-                lastNode.next = currentNode;
-                currentNode.val = flagAddExtra;
-            }
-
-            return returnNode;
-        }
 
         /*Longest Substring Without Repeating Characters*/
         public int LengthOfLongestSubstring(string s)
@@ -611,32 +550,7 @@ namespace AlgorithmPractice
             return commPrefix;
         }
 
-        /*Remove Nth Node From End of List*/
-        public ListNode RemoveNthFromEnd(ListNode head, int n)
-        {
-            ListNode fast = head;// L is from head the index of the node need to be deleted, L+n equal the nodes count of the list
-            ListNode slow = head;// this point that one need to be deleted
-
-            for (int i = 0; i < n; i++)// i can from 1 but later need fast.next.next!=null
-            {
-                fast = fast.next;
-            }
-
-            if (fast == null)//if i from 1 then fast.next!=null
-            {
-                return head.next;
-            }
-
-            while (fast.next != null)//if i from 1 then  fast.next.next!=null
-            {
-                slow = slow.next;
-                fast = fast.next;
-            }
-
-            slow.next = slow.next.next;
-
-            return head;
-        }
+   
 
         /*Integer to Roman*/
         public string IntToRoman(int num)
@@ -1031,73 +945,7 @@ namespace AlgorithmPractice
                 return false;
         }
 
-        /*Merge Two Sorted Lists*/
-        public ListNode MergeTwoLists(ListNode list1, ListNode list2)
-        {
-            if (list1 == null && list2 == null)
-            {
-                return null;
-            }
-
-            if (list1 == null && list2 != null)
-            {
-                return list2;
-            }
-
-            if (list1 != null && list2 == null)
-            {
-                return list1;
-            }
-
-            ListNode head = null;
-            ListNode current = null;
-            while (list1 != null || list2 != null)
-            {
-                ListNode currentItem = new ListNode();
-                if (head == null)
-                {
-                    head = currentItem;
-                    current = currentItem;
-                }
-                else
-                {
-                    current.next = currentItem;
-                    current = currentItem;
-                }
-
-                if (list1 != null && list2 != null)
-                {
-                    if (list1.val <= list2.val)
-                    {
-                        currentItem.val = list1.val;
-                        list1 = list1.next;
-                        continue;
-                    }
-                    else if (list1.val > list2.val)
-                    {
-                        currentItem.val = list2.val;
-                        list2 = list2.next;
-                        continue;
-                    }
-                }
-
-                else if (list1 == null)
-                {
-                    currentItem.val = list2.val;
-                    list2 = list2.next;
-                    continue;
-                }
-
-                else if (list2 == null)
-                {
-                    currentItem.val = list1.val;
-                    list1 = list1.next;
-                    continue;
-                }
-            }
-
-            return head;
-        }
+ 
 
         /*Generate Parentheses*/
         public IList<string> GenerateParenthesis(int n)
@@ -1133,76 +981,7 @@ namespace AlgorithmPractice
                 AddParentheses(open, close + 1, ref result, temp, n);
             }
         }
-
-        public class HeadItem
-        {
-            public int val;
-            public int listIndex;
-        }
-        /*Merge k Sorted Lists*/
-        public ListNode MergeKLists(ListNode[] lists)
-        {
-            ListNode head = null;
-            ListNode current = null;
-            if (lists.Length == 0)
-                return head;
-
-            HeadItem minValue = new HeadItem();
-            minValue.val = int.MaxValue;
-            minValue.listIndex = -1;
-            while (true)
-            {
-                int listCount = lists.Length;
-                for (int i = 0; i < lists.Length; i++)
-                {
-                    if (lists[i] != null)
-                    {
-                        if (lists[i].val < minValue.val)
-                        {
-                            minValue.val = lists[i].val;
-                            minValue.listIndex = i;
-                        }
-                    }
-                    else
-                    {
-                        listCount--;
-                    }
-                }
-
-                if (listCount == 0)// all check
-                {
-                    break;
-                }
-                else
-                {
-                    if (current == null)
-                    {
-                        head = new ListNode(minValue.val, null);
-                        current = head;
-                        lists[minValue.listIndex] = lists[minValue.listIndex].next;
-                    }
-                    else
-                    {
-                        current.next = new ListNode(minValue.val, null);
-                        current = current.next;
-                        lists[minValue.listIndex] = lists[minValue.listIndex].next;
-                    }
-
-                    if (lists[minValue.listIndex] == null)
-                    {
-                        listCount--;
-                        if (listCount == 0)
-                            break;
-                    }
-                    minValue = new HeadItem();
-                    minValue.val = int.MaxValue;
-                }
-
-            }
-
-            return head;
-        }
-
+   
         /*Remove Duplicates from Sorted Array*/
         public int RemoveDuplicates(int[] nums)
         {
@@ -1226,89 +1005,7 @@ namespace AlgorithmPractice
             return i + 1;
         }
 
-        /* Swap Nodes in Pairs*/
-        public ListNode SwapPairs(ListNode head)
-        {
-            if (head == null)
-                return null;
-            if (head.next == null)
-            {
-                return head;
-            }
-            ListNode headNew = null;
-            ListNode lastIndexSeq = null;
-            ListNode current = head;
-            while (true)
-            {
-                if (current == null)
-                {
-                    break;
-                }
-                ListNode currentOne = current.next;
-
-                if (currentOne == null)
-                {
-                    break;
-                }
-
-                ListNode currentTwo = currentOne.next;
-                current.next = currentTwo;
-                currentOne.next = current;
-                if (lastIndexSeq != null)
-                {
-                    lastIndexSeq.next = currentOne;
-                }
-
-                if (headNew == null)
-                {
-                    headNew = currentOne;
-                }
-
-                lastIndexSeq = current;
-                current = current.next;
-            }
-
-            return headNew;
-        }
-
-        /*Reverse Nodes in k-Group*/
-        public ListNode ReverseKGroup(ListNode head, int k)
-        {
-            if (head == null)
-                return head;
-            if (head.next == null)
-            {
-                return head;
-            }
-
-            ListNode current = head;
-            for (int i = 0; i < k; i++)
-            {
-                if (current != null)
-                {
-                    current = current.next;
-                }
-                else
-                {
-                    return head;// not enough k number
-                }
-            }
-
-
-            current = head;
-            ListNode preNode = null;
-            for (int i = 0; i < k; i++)
-            {
-                ListNode nextNode = current.next;
-                current.next = preNode;
-                preNode = current;
-                current = nextNode;
-            }
-
-
-            head.next = ReverseKGroup(current, k);
-            return preNode;
-        }
+ 
 
         /*Remove Element*/
         public int RemoveElement(int[] nums, int val)
